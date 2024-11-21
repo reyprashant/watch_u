@@ -122,29 +122,29 @@ import threading #for taking screenshots at background without any lag
 import os #to create the necessary files and folders
 import cv2 #opencv library to create the timelapse video
 import numpy as np # numpy for the array access and also for the math functions
-from datetime import datetime
-import time
-import glob
+from datetime import datetime #for generating time stamps for naming files and folders
+import time # to add delay between the screen shots
+import glob #this is used to find the files with a similar pattern for this it is used for geetung the screenshot files
 
 
 class TimeTrackerApp:
-    def __init__(self, root):
+    def __init__(self, root): #constructor innitiated for gui it is used to refer to the window
         self.root = root
-        self.root.title("Watch U")
-        self.root.geometry("500x400")
+        self.root.title("Watch U") #setting title
+        self.root.geometry("500x400") #setting size of the window
 
-
-        self.is_tracking = False
-        self.screenshot_interval = 0
-        self.screenshot_thread = None
-        self.stop_event = threading.Event()
-        self.current_session_folder = None
+#main variables
+        self.is_tracking = False #indicates whether the screen shot is on or not or the process is on or not
+        self.screenshot_interval = 0 #indicating the interval of the time gap between the intervals
+        self.screenshot_thread = None #for taking screenshots in background
+        self.stop_event = threading.Event() #stopping the thread
+        self.current_session_folder = None #where current screenshot is saved
 
         self.screenshots_dir = "my_screenshots"
-        os.makedirs(self.screenshots_dir, exist_ok=True)
+        os.makedirs(self.screenshots_dir, exist_ok=True)  #make directory to save all the screenshots
 
         self.welcome_label = tk.Label(root, text="Watching You", font=("Arial", 18, "bold"))
-        self.welcome_label.pack(pady=20)
+        self.welcome_label.pack(pady=20)# for the label parameter pady refers to the padding from the element on each side
 
 
         interval_frame = tk.Frame(root)
@@ -153,11 +153,11 @@ class TimeTrackerApp:
         tk.Label(interval_frame, text="Enter Screenshot Interval (seconds):", font=("Arial", 12)).pack(side=tk.LEFT,
                                                                                                        padx=5)
         self.interval_entry = tk.Entry(interval_frame, font=("Arial", 12), width=10, justify='center')
-        self.interval_entry.pack(side=tk.LEFT, padx=5)
+        self.interval_entry.pack(side=tk.LEFT, padx=5) #for the label and user to enter the  interval time
 
 
-        button_frame = tk.Frame(root)
-        button_frame.pack(pady=30)
+        button_frame = tk.Frame(root) #Creates a new frame and assigns it to the button_frame variable. The root argument specifies that this frame is a child of the root window.
+        button_frame.pack(pady=30) #pack or simply put the button_frame variable into the root window
 
         self.clock_in_button = tk.Button(button_frame, text="Clock In", command=self.clock_in,
                                          bg="black", fg="white", font=("Arial", 14), width=15)
@@ -165,7 +165,7 @@ class TimeTrackerApp:
 
         self.clock_out_button = tk.Button(button_frame, text="Clock Out", command=self.clock_out,
                                           bg="black", fg="white", font=("Arial", 14), width=15, state=tk.DISABLED)
-        self.clock_out_button.pack(side=tk.LEFT, padx=10)
+        self.clock_out_button.pack(side=tk.LEFT, padx=10)  #for clockin and clock out button
 
     def clock_in(self):
 
