@@ -1,119 +1,3 @@
-#
-# import tkinter as tk
-# from tkinter import messagebox
-# import pyautogui
-# import threading
-# import os
-# from datetime import datetime
-# import time
-#
-#
-# class TimeTrackerApp:
-#     def __init__(self, root):
-#         self.root = root
-#         self.root.title("Watch U")
-#         self.root.geometry("500x400")
-#
-#         # Screenshot tracking variables
-#         self.is_tracking = False
-#         self.screenshot_interval = 0
-#         self.screenshot_thread = None
-#         self.stop_event = threading.Event()
-#
-#         self.screenshots_dir = "my_screenshots"
-#         os.makedirs(self.screenshots_dir, exist_ok=True)
-#
-#         self.welcome_label = tk.Label(root, text="Watching You", font=("Arial", 18, "bold"))
-#         self.welcome_label.pack(pady=20)
-#
-#         # Screenshot Interval Input
-#         interval_frame = tk.Frame(root)
-#         interval_frame.pack(pady=20)
-#
-#         tk.Label(interval_frame, text="Enter Screenshot Interval (seconds):", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
-#         self.interval_entry = tk.Entry(interval_frame, font=("Arial", 12), width=10, justify='center')
-#         self.interval_entry.pack(side=tk.LEFT, padx=5)
-#
-#         # Buttons Frame (shifted down)
-#         button_frame = tk.Frame(root)
-#         button_frame.pack(pady=30)
-#
-#         self.clock_in_button = tk.Button(button_frame, text="Clock In", command=self.clock_in,
-#                                          bg="black", fg="white", font=("Arial", 14), width=15)
-#         self.clock_in_button.pack(side=tk.LEFT, padx=10)
-#
-#         self.clock_out_button = tk.Button(button_frame, text="Clock Out", command=self.clock_out,
-#                                           bg="black", fg="white", font=("Arial", 14), width=15, state=tk.DISABLED)
-#         self.clock_out_button.pack(side=tk.LEFT, padx=10)
-#
-#     def clock_in(self):
-#         # Get screenshot interval
-#         try:
-#             self.screenshot_interval = int(self.interval_entry.get())
-#             if self.screenshot_interval <= 0:
-#                 raise ValueError("Interval must be positive")
-#         except (ValueError, TypeError):
-#             messagebox.showwarning("Input Error",
-#                                    "Please enter a valid screenshot interval (positive number of seconds)!")
-#             return
-#
-#         # Start screenshot tracking
-#         self.is_tracking = True
-#         self.stop_event.clear()
-#         self.screenshot_thread = threading.Thread(target=self.take_continuous_screenshots)
-#         self.screenshot_thread.start()
-#
-#         # Update UI
-#         messagebox.showinfo("Tracking Started", f"Started tracking with {self.screenshot_interval} second intervals")
-#         self.clock_in_button.config(state=tk.DISABLED)
-#         self.clock_out_button.config(state=tk.NORMAL)
-#
-#     def take_continuous_screenshots(self):
-#         # Create a timestamped folder for this tracking session
-#         session_folder = os.path.join(
-#             self.screenshots_dir,
-#             datetime.now().strftime("%Y%m%d_%H%M%S")
-#         )
-#         os.makedirs(session_folder, exist_ok=True)
-#
-#         # Take screenshots at specified interval
-#         screenshot_count = 0
-#         while not self.stop_event.is_set():
-#             # Take screenshot
-#             screenshot = pyautogui.screenshot()
-#
-#             # Save screenshot with timestamp
-#             screenshot_filename = os.path.join(
-#                 session_folder,
-#                 f"screenshot_{screenshot_count:04d}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-#             )
-#             screenshot.save(screenshot_filename)
-#
-#             # Increment counter
-#             screenshot_count += 1
-#
-#             # Wait for specified interval
-#             time.sleep(self.screenshot_interval)
-#
-#     def clock_out(self):
-#         # Stop screenshot tracking
-#         self.stop_event.set()
-#         if self.screenshot_thread:
-#             self.screenshot_thread.join()
-#
-#         # Update UI
-#         messagebox.showinfo("Tracking Stopped", "Tracking stopped. Screenshots saved.")
-#         self.clock_in_button.config(state=tk.NORMAL)
-#         self.clock_out_button.config(state=tk.DISABLED)
-#
-#         # Reset entries
-#         self.interval_entry.delete(0, tk.END)
-#
-#
-# # Create the main window
-# root = tk.Tk()
-# app = TimeTrackerApp(root)
-# root.mainloop()
 
 import tkinter as tk #for gui
 from tkinter import messagebox #for pop up messages
@@ -170,82 +54,82 @@ class TimeTrackerApp:
     def clock_in(self):
 
         try:
-            self.screenshot_interval = int(self.interval_entry.get())
+            self.screenshot_interval = int(self.interval_entry.get()) #get the input from the user
             if self.screenshot_interval <= 0:
                 raise ValueError("Interval must be positive")
         except (ValueError, TypeError):
-            messagebox.showwarning("Input Error",
+            messagebox.showwarning("Input Error",     #fot the validation from the user and prevent the user to input the non numeric values
                                    "Please enter a valid screenshot interval (positive number of seconds)!")
             return
 
 
         self.current_session_folder = os.path.join(
             self.screenshots_dir,
-            datetime.now().strftime("%Y%m%d_%H%M%S")
+            datetime.now().strftime("%Y%m%d_%H%M%S")    #generate a current folder name with the current time span
         )
         os.makedirs(self.current_session_folder, exist_ok=True)
 
 
-        self.is_tracking = True
-        self.stop_event.clear()
-        self.screenshot_thread = threading.Thread(target=self.take_continuous_screenshots)
-        self.screenshot_thread.start()
+        self.is_tracking = True #traking status to active
+        self.stop_event.clear()   # to make sure that the start is fresh simply reset
+        self.screenshot_thread = threading.Thread(target=self.take_continuous_screenshots) #new thread for screenshot capture
+        self.screenshot_thread.start()   #start the thread
 
 
         messagebox.showinfo("Tracking Started", f"Started tracking with {self.screenshot_interval} second intervals")
-        self.clock_in_button.config(state=tk.DISABLED)
-        self.clock_out_button.config(state=tk.NORMAL)
+        self.clock_in_button.config(state=tk.DISABLED) #diabale the clock in button so that the button is reclicked again
+        self.clock_out_button.config(state=tk.NORMAL) #enable the clock out button
 
     def take_continuous_screenshots(self):
 
         screenshot_count = 0
-        while not self.stop_event.is_set():
+        while not self.stop_event.is_set():   #infinite loop but when the stop event is triggered it stops
 
-            screenshot = pyautogui.screenshot()
+            screenshot = pyautogui.screenshot()     #most important function that takes the screen shots
 
-            screenshot_filename = os.path.join(
+            screenshot_filename = os.path.join(   #path for the screen shot
                 self.current_session_folder,
-                f"screenshot_{screenshot_count:04d}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+                f"screenshot_{screenshot_count:04d}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png" #for the unique file name
             )
-            screenshot.save(screenshot_filename)
+            screenshot.save(screenshot_filename)   #simply saves the screenshot
 
-            screenshot_count += 1
+            screenshot_count += 1   #next screenshot have unique value as well
 
-            time.sleep(self.screenshot_interval)
+            time.sleep(self.screenshot_interval)     #to take a pause from 2 screenshots
 
-    def create_timelapse(self, screenshot_folder):
+    def create_timelapse(self, screenshot_folder):    #this function creates the timelapse functions from the screenshot folder
         # Get all screenshot files
-        screenshots = sorted(glob.glob(os.path.join(screenshot_folder, "screenshot_*.png")))
+        screenshots = sorted(glob.glob(os.path.join(screenshot_folder, "screenshot_*.png")))  #this functions find all the file in the screenshot function
 
         if len(screenshots) < 2:
             messagebox.showwarning("Time-lapse Error", "Not enough screenshots to create time-lapse.")
             return None
 
-        first_image = cv2.imread(screenshots[0])
-        height, width, layers = first_image.shape
+        first_image = cv2.imread(screenshots[0]) #reads first screenhsot in the list
+        height, width, layers = first_image.shape  # to know the picture format for the video resolution
 
-        timelapse_path = os.path.join(screenshot_folder, "timelapse.mp4")
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        timelapse_path = os.path.join(screenshot_folder, "timelapse.mp4") #path where timelapse video will be saved
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v') #mention the specific codec file for the video file
 
-        frame_rate = max(1, len(screenshots) // 10)
-        out = cv2.VideoWriter(timelapse_path, fourcc, frame_rate, (width, height))
+        frame_rate = max(1, len(screenshots) // 10) #sets the framerate based on the no of screenshots with a minimum of 1 frame per second #max(1, ...): Ensures the frame rate is at least 1 frame per second.
+        out = cv2.VideoWriter(timelapse_path, fourcc, frame_rate, (width, height)) #create a video writer object with specific path, codec and framerate
 
         for screenshot in screenshots:
-            frame = cv2.imread(screenshot)
-            out.write(frame)
+            frame = cv2.imread(screenshot)  #read the current screenshot as an image
+            out.write(frame) #adds the image as a frame to the video
 
-        out.release()
+        out.release() #close the video writer and ensures video is saved properly
 
-        return timelapse_path
+        return timelapse_path #return path to created timelapse video
 
     def clock_out(self):
-        self.stop_event.set()
-        if self.screenshot_thread:
-            self.screenshot_thread.join()
+        self.stop_event.set() #ask the thread taking screenshot to stop
+        if self.screenshot_thread: #check the thread is active or not
+            self.screenshot_thread.join() #waits for thread to finish execution completely before proceeding
 
-        timelapse_path = self.create_timelapse(self.current_session_folder)
+        timelapse_path = self.create_timelapse(self.current_session_folder) #Stores the path to the created time-lapse video.
 
-        if timelapse_path:
+        if timelapse_path: #if the timelapse video was created sucessfully
             messagebox.showinfo("Tracking Stopped",
                                 f"Tracking stopped. Screenshots saved.\n"
                                 f"Time-lapse created: {timelapse_path}")
@@ -253,12 +137,12 @@ class TimeTrackerApp:
             messagebox.showinfo("Tracking Stopped", "Tracking stopped. Screenshots saved.")
 
         self.clock_in_button.config(state=tk.NORMAL)
-        self.clock_out_button.config(state=tk.DISABLED)
+        self.clock_out_button.config(state=tk.DISABLED) #allowing to clock in and disable the button
 
-        self.interval_entry.delete(0, tk.END)
-        self.current_session_folder = None
+        self.interval_entry.delete(0, tk.END) #clear the input field for the next session
+        self.current_session_folder = None #resets the tracking for the folder and prepare it for the next process
 
 
-root = tk.Tk()
-app = TimeTrackerApp(root)
-root.mainloop()
+root = tk.Tk() #creating application root for the all gui component initializing the tkinter
+app = TimeTrackerApp(root) #obj created for the TimeTrackerApp
+root.mainloop() #tkinter event loop to handle ths events
