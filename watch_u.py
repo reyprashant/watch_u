@@ -190,7 +190,7 @@
 #     app = WatchU(root)  # obj created for the TimeTrackerApp
 #     root.mainloop()  # tkinter event loop to handle ths events
 #
-
+#
 import tkinter as tk  # for gui
 from tkinter import messagebox  # for pop up messages
 import pyautogui  # for screenshots
