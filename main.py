@@ -105,8 +105,8 @@ from tkinter.font import names
 
 
 #slices in lists
-pets = ['dog','cat','cow','buffalo','rat'] # this is a example of lists
-pets = ('dog','cat','cow','buffalo','rat') # this is a example of tuple
+# pets = ['dog','cat','cow','buffalo','rat'] # this is a example of lists
+# pets = ('dog','cat','cow','buffalo','rat') # this is a example of tuple
 #key difference between tuple and the list is that the touple cannot be changed but the list can be changed
 
 # print(len(pets))

@@ -200,8 +200,7 @@ import cv2  # opencv library to create the timelapse video
 import numpy as np  # numpy for the array access and also for the math functions
 from datetime import datetime  # for generating time stamps for naming files and folders
 import time  # to add delay between the screen shots
-import \
-    glob  # this is used to find the files with a similar pattern for this it is used for geetung the screenshot files
+import glob  # this is used to find the files with a similar pattern for this it is used for geetung the screenshot files
 import subprocess  # for opening files with default system applications
 
 
