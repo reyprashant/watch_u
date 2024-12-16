@@ -110,7 +110,7 @@ Create a new branch for your feature or bugfix.
 Submit a pull request describing your changes.
 
 <h3>Issues</h3>
-If you encounter any issues, please report them in the Issues section of this repository.
+If you encounter any issues, Please report them in the Issues section of this repository.
 
 <h3>Contact</h3>
 For questions or support, contact:
