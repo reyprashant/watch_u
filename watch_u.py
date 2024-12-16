@@ -13,7 +13,7 @@
 #
 #
 # class WatchU:
-#     def __init__(self, root):  # constructor innitiated for gui it is used to refer to the window
+#     def __init__(self, root):  # constructor initiated for gui it is used to refer to the window
 #         self.root = root
 #         self.root.title("Watch U")  # setting title
 #         self.root.geometry("500x500")  # setting size of the window
